@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NOX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0e0c0b;
+      --bg2:      #141210;
+      --border:   #2C2C2A;
+      --text:     #D3D1C7;
+      --text2:    #B4B2A9;
+      --text3:    #888780;
+      --text4:    #5F5E5A;
+      --text5:    #444441;
+      --amber:    #BA7517;
+      --purple:   #7F77DD;
+      --green:    #1D9E75;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* TYPOGRAPHY */
+    .serif { font-family: 'Playfair Display', serif; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    p { color: var(--text2); font-size: 15px; line-height: 1.85; margin-bottom: 1rem; }
+
+    /* SECTIONS */
+    section {
+      padding: 3rem 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    /* LABEL */
+    .label {
+      font-size: 11px;
+      color: var(--text4);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 5rem 0 3.5rem;
+      border-bottom: 0.5px solid var(--border);
+      text-align: center;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      border: 0.5px solid var(--border);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero-title { margin-bottom: 0.5rem; }
+
+    .hero-sub {
+      font-size: 12px;
+      color: var(--text5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(16px, 3vw, 20px);
+      font-style: italic;
+      color: var(--text3);
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 4px 12px;
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      color: var(--text5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* COVER IMAGE */
+    .cover-img {
+      width: 100%;
+      border-radius: 8px;
+      border: 0.5px solid var(--border);
+      margin: 2rem 0;
+      display: block;
+    }
+
+    .cover-placeholder {
+      width: 100%;
+      height: 360px;
+      background: linear-gradient(180deg, #1a1410 0%, var(--bg) 100%);
+      border-radius: 8px;
+      border: 0.5px solid var(--border);
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--text5);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* QUOTE */
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      margin: 1.5rem 0;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--text4);
+      line-height: 1.75;
+    }
+
+    /* PROGRESS */
+    .progress-list { margin: 1.5rem 0; display: flex; flex-direction: column; gap: 10px; }
+
+    .progress-row { display: flex; align-items: center; gap: 12px; }
+
+    .progress-label { font-size: 12px; color: var(--text3); min-width: 120px; }
+
+    .progress-bar {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+
+    .progress-pct { font-size: 11px; color: var(--text5); min-width: 32px; text-align: right; }
+
+    /* CHAPTERS */
+    .chapter-list { display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem; }
+
+    .chapter {
+      padding: 1rem 1.25rem;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .chapter-num { font-size: 11px; color: var(--text5); min-width: 70px; }
+    .chapter-name { font-size: 13px; color: var(--text); font-weight: 500; flex: 1; }
+    .chapter-room { font-size: 11px; color: var(--text5); }
+
+    .chip {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 10px;
+    }
+
+    .chip-done  { background: #04342C; color: #5DCAA5; }
+    .chip-wip   { background: #412402; color: #EF9F27; }
+    .chip-soon  { background: var(--bg2); color: var(--text5); border: 0.5px solid var(--border); }
+
+    /* DEVLOG */
+    .log-list { margin-top: 1.5rem; }
+
+    .log-item {
+      display: flex;
+      gap: 20px;
+      padding: 1.25rem 0;
+      border-bottom: 0.5px solid #1a1a18;
+    }
+
+    .log-item:last-child { border-bottom: none; }
+
+    .log-date {
+      font-size: 11px;
+      color: var(--text5);
+      min-width: 72px;
+      padding-top: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .log-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .log-desc { font-size: 13px; color: var(--text4); line-height: 1.6; margin-bottom: 6px; }
+
+    .log-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .chip-code    { background: var(--bg2); color: var(--text3); border: 0.5px solid var(--border); font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+    .chip-story   { background: #1a1218; color: var(--purple); border: 0.5px solid #26215C; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+    .chip-design  { background: #12181a; color: var(--green); border: 0.5px solid #04342C; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+    .chip-art     { background: #1a1510; color: var(--amber); border: 0.5px solid #412402; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+
+    /* CHARACTERS */
+    .char-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+
+    .char { display: flex; gap: 16px; }
+    .char-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .char-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .char-desc { font-size: 13px; color: var(--text4); line-height: 1.65; margin: 0; }
+
+    /* SCREENSHOTS */
+    .screenshots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 1.5rem; }
+
+    .screenshot-slot {
+      aspect-ratio: 16/9;
+      background: var(--bg2);
+      border: 0.5px dashed var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .screenshot-slot img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* PRIVATE NOTE */
+    .private-note {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-top: 1.5rem;
+    }
+
+    .private-note-icon { color: var(--text5); font-size: 16px; padding-top: 1px; flex-shrink: 0; }
+    .private-note p { font-size: 13px; color: var(--text5); margin: 0; line-height: 1.6; }
+
+    /* DETAILS GRID */
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 1.5rem; }
+
+    .detail-card {
+      padding: 1rem 1.25rem;
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .detail-label { font-size: 10px; color: var(--text5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .detail-value { font-size: 14px; color: var(--text2); }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    footer .raven { font-size: 32px; color: var(--border); margin-bottom: 1.25rem; display: block; }
+
+    footer p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text5);
+      margin-bottom: 4px;
+    }
+
+    footer .credit {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+    }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
+
+    /* RESPONSIVE */
+    @media (max-width: 540px) {
+      .screenshots { grid-template-columns: 1fr; }
+      .details-grid { grid-template-columns: 1fr; }
+      .chapter { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      In Development · Journey Documentation
+    </div>
+
+    <h1 class="hero-title">NOX</h1>
+    <p class="hero-sub">The Hollow Formula · 2026</p>
+
+    <p class="hero-tagline">
+      "I have always felt invisible.<br>
+      Not in the way people say when they want attention.<br>
+      In the real way."
+    </p>
+
+    <div class="tags">
+      <span class="tag">Atmospheric</span>
+      <span class="tag">Narrative Puzzle</span>
+      <span class="tag">First Person</span>
+      <span class="tag">Unity 6</span>
+      <span class="tag">Indie</span>
+      <span class="tag">Egypt</span>
+    </div>
+  </section>
+
+  <!-- COVER -->
+  <section>
+    <span class="label">The world</span>
+
+    <!-- Replace src with your actual screenshot path -->
+    <!-- <img class="cover-img" src="cover.jpg" alt="Nox standing in the alchemist's cellar"/> -->
+    <div class="cover-placeholder">
+      <span>🪶</span>
+      <span>Add cover screenshot here</span>
+    </div>
+
+    <p>
+      A girl named Nox follows a silent raven into an abandoned alchemist's house.
+      She expects to find the formula that cursed her.
+      Instead she finds the story of someone who spent his entire life
+      asking the same question she carries.
+    </p>
+
+    <blockquote>
+      "The formula was never meant to cure her.<br>
+      It was meant to help her see herself."
+    </blockquote>
+  </section>
+
+  <!-- WHY -->
+  <section>
+    <span class="label">Why this exists</span>
+    <h2>This started as a feeling, not an idea.</h2>
+
+    <p>
+      I'm Amira. I'm 27, from Egypt. I spent four years building real-time
+      physics simulations in Unity — converting biology, chemistry, and physics
+      experiments into virtual labs for students. It was good work. But it wasn't mine.
+    </p>
+
+    <p>
+      In 2025 I decided to go back to what I actually loved: making games.
+      And instead of making something safe, I made something honest.
+    </p>
+
+    <p>
+      Nox is a girl who feels exactly the way I sometimes feel.
+      I didn't plan that. It just came out that way.
+    </p>
+
+    <blockquote>
+      "The Hollow Formula is about learning that some questions do not need answers.<br>
+      Some wounds do not need solutions.<br>
+      And some goodbyes are not endings."
+    </blockquote>
+
+    <p>
+      This page documents the journey — the decisions made, the things that worked,
+      the things that didn't. Honestly.
+    </p>
+  </section>
+
+  <!-- PROGRESS -->
+  <section>
+    <span class="label">Progress</span>
+
+    <div class="progress-list">
+      <div class="progress-row">
+        <span class="progress-label">Story bible</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%; background:#1D9E75;"></div></div>
+        <span class="progress-pct">100%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Core systems</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:85%; background:#1D9E75;"></div></div>
+        <span class="progress-pct">85%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Chapter 1</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%; background:#1D9E75;"></div></div>
+        <span class="progress-pct">100%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Chapter 2</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:10%; background:#BA7517;"></div></div>
+        <span class="progress-pct">10%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Chapters 3–5</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%; background:#444441;"></div></div>
+        <span class="progress-pct">—</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Characters</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:40%; background:#BA7517;"></div></div>
+        <span class="progress-pct">40%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Shaders</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:70%; background:#1D9E75;"></div></div>
+        <span class="progress-pct">70%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Sound & music</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:15%; background:#BA7517;"></div></div>
+        <span class="progress-pct">15%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTERS -->
+  <section>
+    <span class="label">Chapters</span>
+
+    <div class="chapter-list">
+      <div class="chapter">
+        <span class="chapter-num">Chapter 1</span>
+        <div>
+          <div class="chapter-name">The First Question</div>
+          <div class="chapter-room">Cellar · Distillation puzzle</div>
+        </div>
+        <span class="chip chip-done">Complete</span>
+      </div>
+      <div class="chapter">
+        <span class="chapter-num">Chapter 2</span>
+        <div>
+          <div class="chapter-name">The Need for Control</div>
+          <div class="chapter-room">Workshop · Pressure puzzle</div>
+        </div>
+        <span class="chip chip-wip">In progress</span>
+      </div>
+      <div class="chapter">
+        <span class="chapter-num">Chapter 3</span>
+        <div>
+          <div class="chapter-name">The Obsession Loop</div>
+          <div class="chapter-room">Laboratory · Combination puzzle</div>
+        </div>
+        <span class="chip chip-soon">Not started</span>
+      </div>
+      <div class="chapter">
+        <span class="chapter-num">Chapter 4</span>
+        <div>
+          <div class="chapter-name">The Doubt</div>
+          <div class="chapter-room">Library · Pattern puzzle</div>
+        </div>
+        <span class="chip chip-soon">Not started</span>
+      </div>
+      <div class="chapter">
+        <span class="chapter-num">Chapter 5</span>
+        <div>
+          <div class="chapter-name">What He Left Behind</div>
+          <div class="chapter-room">Study · Assembly puzzle</div>
+        </div>
+        <span class="chip chip-soon">Not started</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARACTERS -->
+  <section>
+    <span class="label">Characters</span>
+
+    <div class="char-list">
+      <div class="char">
+        <div class="char-dot" style="background:#D3D1C7;"></div>
+        <div>
+          <p class="char-name">Nox — you</p>
+          <p class="char-desc">Age 10–12. Dark short hair. Honey amber eyes. Dark striped blouse, short skirt, black tights, worn boots. The player never sees her — just as the world never truly saw her. She exists only through her hands reaching out, and the raven who looks back.</p>
+        </div>
+      </div>
+      <div class="char">
+        <div class="char-dot" style="background:#2C2C2A;"></div>
+        <div>
+          <p class="char-name">The Raven — silent, nameless</p>
+          <p class="char-desc">He belonged to the alchemist. He was there when everything happened. He never speaks. He communicates through where he sits, what he drops, and when he looks away. His story is not about guiding Nox. It is about learning to let go.</p>
+        </div>
+      </div>
+      <div class="char">
+        <div class="char-dot" style="background:#444441;"></div>
+        <div>
+          <p class="char-name">The Alchemist — never seen</p>
+          <p class="char-desc">Gone before the story begins. Present in every room. He felt the same curse. He spent his whole life trying to formula his way out of it. The house is his mind. Every room, a chapter of his search.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section>
+    <span class="label">Screenshots</span>
+
+    <div class="screenshots">
+      <div class="screenshot-slot">
+        <!-- <img src="screenshot1.jpg" alt=""/> -->
+        01
+      </div>
+      <div class="screenshot-slot">
+        <!-- <img src="screenshot2.jpg" alt=""/> -->
+        02
+      </div>
+      <div class="screenshot-slot">
+        <!-- <img src="screenshot3.jpg" alt=""/> -->
+        03
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVLOG -->
+  <section>
+    <span class="label">Development log</span>
+
+    <div class="log-list">
+
+      <div class="log-item">
+        <span class="log-date">Jun 2026</span>
+        <div>
+          <p class="log-title">Chapter 1 complete — Nox stands in the cellar</p>
+          <p class="log-desc">First puzzle fully working. Distillation apparatus, candle lighting sequence, the raven on the shelf. First time seeing her standing in front of the chalkboard in that striped blouse — it felt real.</p>
+          <div class="log-chips">
+            <span class="chip-code">Systems</span>
+            <span class="chip-art">Art</span>
+            <span class="chip-story">Narrative</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-item">
+        <span class="log-date">Jun 2026</span>
+        <div>
+          <p class="log-title">Cinematic feeling system — the house breathes</p>
+          <p class="log-desc">Post process, camera sway, audio, time scale — all four layers responding to Recognition, Unease, Grief, Wonder, Freedom. When Nox lights the first candle, the whole cellar exhales.</p>
+          <div class="log-chips">
+            <span class="chip-code">Systems</span>
+            <span class="chip-design">Design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-item">
+        <span class="log-date">Jun 2026</span>
+        <div>
+          <p class="log-title">AAA puzzle architecture — clean, scalable, honest</p>
+          <p class="log-desc">PuzzleDirector knows nothing about candles or burners. SnapPoint owns snap logic. GrabbableObject only grabs. Every system knows exactly what it is and nothing more.</p>
+          <div class="log-chips">
+            <span class="chip-code">Architecture</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-item">
+        <span class="log-date">May 2026</span>
+        <div>
+          <p class="log-title">Story bible locked — 5 chapters, 1 raven, 1 question</p>
+          <p class="log-desc">The story came from a real feeling. Nox is invisible because I sometimes feel invisible. The alchemist felt it too. The house is his whole life's attempt to answer a question that has no formula.</p>
+          <div class="log-chips">
+            <span class="chip-story">Narrative</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-item">
+        <span class="log-date">May 2026</span>
+        <div>
+          <p class="log-title">First person controller — Nox finally moves</p>
+          <p class="log-desc">The moment I felt her for the first time. Slow walk, smooth camera, the house suddenly had weight. She walks like someone stepping carefully into somewhere unfamiliar and dark.</p>
+          <div class="log-chips">
+            <span class="chip-code">Systems</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CORE QUESTION -->
+  <section style="text-align:center; padding: 3.5rem 0;">
+    <blockquote style="border:none; text-align:center; font-size:clamp(16px, 3vw, 22px); color: var(--text4); max-width: 480px; margin: 0 auto;">
+      "Is there something wrong with me —<br>
+      or have I been asking the wrong question all along?"
+    </blockquote>
+  </section>
+
+  <!-- DETAILS -->
+  <section>
+    <span class="label">Details</span>
+
+    <div class="details-grid">
+      <div class="detail-card">
+        <p class="detail-label">Platform</p>
+        <p class="detail-value">Windows PC</p>
+      </div>
+      <div class="detail-card">
+        <p class="detail-label">Engine</p>
+        <p class="detail-value">Unity 6 · URP</p>
+      </div>
+      <div class="detail-card">
+        <p class="detail-label">Length</p>
+        <p class="detail-value">60–90 minutes</p>
+      </div>
+      <div class="detail-card">
+        <p class="detail-label">Price</p>
+        <p class="detail-value">Free</p>
+      </div>
+      <div class="detail-card">
+        <p class="detail-label">Developer</p>
+        <p class="detail-value">Amira · Egypt</p>
+      </div>
+      <div class="detail-card">
+        <p class="detail-label">Status</p>
+        <p class="detail-value">In Development</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="raven">🪶</span>
+    <p>"The Hollow Formula was never about curing loneliness."</p>
+    <p style="color: var(--text5);">"Some goodbyes are not endings.</p>
+    <p style="color: var(--border);">They are the moment life begins again."</p>
+    <p class="credit">Amira · Egypt · 2026</p>
+  </footer>
+
+</body>
+</html>
